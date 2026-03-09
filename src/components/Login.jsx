@@ -31,8 +31,8 @@ function Login() {
             console.error("Login error:", error);
         }
 
-        console.log("Username:", username);
-        console.log("Password:", password);
+        console.log("Username:  ", username);
+        console.log("Password:  ", password);
     }
     return (
         <div>
