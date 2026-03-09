@@ -6,6 +6,8 @@ function Login() {
     const [username, setUsername] = useState("");
     // State to store the password input
     const [password, setPassword] = useState("");
+    // State to store currently logged user
+    const [currentUser, setCurrentUser] = useState(null); 
 
     // Handles form submission
     async function handleSubmit(e) {
@@ -14,13 +16,15 @@ function Login() {
 
         try {
             // Request all users from FastAPI
-            const response = await fetch("http://127.0.0.1:8000/users");
-            const users = await response.json();
+            const response = await fetch("http://127.0.0.1:8000/users"); // React - HTTP - FastAPI
+            const users = await response.json(); // Convert response from JSON to JS object
             // Check if user exists with the entered username and password
             const foundUser = users.find (
                 (user) => user.username === username && user.password === password
             );
             if(foundUser) {
+                setCurrentUser(foundUser); // Save the logged user
+                console.log(foundUser);
                 alert("Login successful");
             }
             else {
@@ -31,8 +35,8 @@ function Login() {
             console.error("Login error:", error);
         }
 
-        console.log("Username:  ", username);
-        console.log("Password:  ", password);
+        console.log("Username:", username);
+        console.log("Password:", password);
     }
     return (
         <div>
@@ -43,7 +47,7 @@ function Login() {
 
                 {/* Username field */}
                 <div>
-                    <label>Username</label>
+                    <label>Username  </label>
                     {/* Value comes from React state */}
                     <input 
                     type="text"
@@ -54,7 +58,7 @@ function Login() {
                 
                 {/* Password field */}
                 <div>
-                    <label>Password</label>
+                    <label>Password  </label>
                     {/* Input connected to password state */}
                     <input 
                     type="password" 
