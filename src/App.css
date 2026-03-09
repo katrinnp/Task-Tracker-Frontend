@@ -40,3 +40,26 @@
 .read-the-docs {
   color: #888;
 }
+
+.form-row { /*Container for each row*/
+  display: flex; /*Place elements in a row*/
+  align-items: center; /*Align verticall label and input*/
+  justify-content: center; /*Center the whole row*/
+  margin-bottom: 5px; /*Add space between rows*/
+}
+
+.form-row label { /*Style for label*/
+  width: 80px; /*Width to align labels*/
+  text-align: right; /*Align label text*/
+  margin-right: 10px; /*Space between label and input*/
+}
+
+.form-row input { /*Style for input fields*/
+  padding: 6px; /*Add inner spacing*/
+}
+
+button { /*Style for buttons*/
+  margin: 5px; /*Space around buttons*/
+  padding: 8px 14px; /*Make buttons larger*/
+  cursor: pointer; /*Show pointer cursor*/
+}
