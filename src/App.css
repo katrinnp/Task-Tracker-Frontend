@@ -2,6 +2,9 @@
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
+}
+
+h2 { /*Center the login title*/
   text-align: center;
 }
 
@@ -41,21 +44,29 @@
   color: #888;
 }
 
+form { /*Form layout*/
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .form-row { /*Container for each row*/
-  display: flex; /*Place elements in a row*/
+  display: grid; /*Uses grid to place elements*/
+  grid-template-columns: 140px 1fr; /*Label + input columns*/
   align-items: center; /*Align verticall label and input*/
-  justify-content: center; /*Center the whole row*/
-  margin-bottom: 5px; /*Add space between rows*/
+  gap: 10px; /*Space between label and input*/
+  margin-bottom: 8px; /*Add space between rows*/
+  width: 350px; /*All rows have the same width*/
 }
 
 .form-row label { /*Style for label*/
-  width: 80px; /*Width to align labels*/
   text-align: right; /*Align label text*/
-  margin-right: 10px; /*Space between label and input*/
+  font-weight: 500;
 }
 
 .form-row input { /*Style for input fields*/
   padding: 6px; /*Add inner spacing*/
+  width: 100%;
 }
 
 button { /*Style for buttons*/

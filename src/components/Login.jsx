@@ -46,8 +46,8 @@ function Login() {
             <form onSubmit={handleSubmit}>
 
                 {/* Username field */}
-                <div>
-                    <label>Username  </label>
+                <div className="form-row">
+                    <label>Username</label>
                     {/* Value comes from React state */}
                     <input 
                     type="text"
@@ -57,8 +57,8 @@ function Login() {
                 </div>
                 
                 {/* Password field */}
-                <div>
-                    <label>Password  </label>
+                <div className="form-row">
+                    <label>Password</label>
                     {/* Input connected to password state */}
                     <input 
                     type="password" 
