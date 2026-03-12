@@ -8,7 +8,7 @@ function Register() { // Component for registering a new user
     async function handleRegister(e) { // Runs when the form is submitted
         e.preventDefault();
         try {
-            const response = await fetch("http://127.0.0.1:8000/users", {
+            const response = await fetch("http://localhost:8000/users/", {
                 method: "POST", // Send POST request to create a new user
                 headers: {"Content-Type": "application/json"}, // Sending JSON data
                 body: JSON.stringify({username, email, password}) // Convert JS object into JSON
