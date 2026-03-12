@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom"; // Used for navigation between pages
 
 // Login component
 function Login() {
@@ -70,6 +71,12 @@ function Login() {
                 {/* Button for submission */}
                 <button type="submit">Login</button>
             </form>
+
+            {/* Link to register page */}
+            <p>New user</p>
+            <Link to="/register">
+            <button>Register</button>
+            </Link>
         </div>
     );
 }
