@@ -1,50 +1,18 @@
-#root {
+#root { /*Main container*/
   max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+  margin: 0 auto; /*Center horizontally*/
+  padding: 2rem; /*Inner spacing*/
 }
 
-h2 { /*Center the login title*/
+h2 { /*Center title*/
   text-align: center;
-}
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
 }
 
 .read-the-docs {
   color: #888;
 }
 
-form { /*Form layout*/
+form { /*Arrange form elements vertically*/
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -53,20 +21,20 @@ form { /*Form layout*/
 .form-row { /*Container for each row*/
   display: grid; /*Uses grid to place elements*/
   grid-template-columns: 140px 1fr; /*Label + input columns*/
-  align-items: center; /*Align verticall label and input*/
+  align-items: center; /*Align vertically label and input*/
   gap: 10px; /*Space between label and input*/
   margin-bottom: 8px; /*Add space between rows*/
   width: 350px; /*All rows have the same width*/
 }
 
 .form-row label { /*Style for label*/
-  text-align: right; /*Align label text*/
+  text-align: right; /*Align text to the right*/
   font-weight: 500;
 }
 
 .form-row input { /*Style for input fields*/
   padding: 6px; /*Add inner spacing*/
-  width: 100%;
+  width: 100%; /*Full width*/
 }
 
 button { /*Style for buttons*/

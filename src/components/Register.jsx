@@ -27,7 +27,7 @@ function Register() { // Component for registering a new user
             <h2>Register</h2>
             {/* Registration form */}
             <form onSubmit={handleRegister}>
-                <div>
+                <div className="form-row">
                     <label>Username</label>
                     <input
                     type="text"
@@ -35,7 +35,7 @@ function Register() { // Component for registering a new user
                     onChange={(e) => setUsername(e.target.value)}
                     />
                 </div>
-                <div>
+                <div className="form-row">
                     <label>Email</label>
                     <input
                     type="text"
@@ -43,7 +43,7 @@ function Register() { // Component for registering a new user
                     onChange={(e) => setEmail(e.target.value)}
                     />
                 </div>
-                <div>
+                <div className="form-row">
                     <label>Password</label>
                     <input
                     type="password"
