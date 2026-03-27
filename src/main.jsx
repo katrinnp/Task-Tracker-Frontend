@@ -3,10 +3,14 @@ import { createRoot } from 'react-dom/client' // Creates the root where the Reac
 import App from './App.jsx'
 import './index.css'
 
+import { ChakraProvider } from "@chakra-ui/react";
+
 // Find HTML element with id = 'root' in index.html and render the React app inside it
 createRoot(document.getElementById('root')).render(
   // Helps detect potential problems
-  <StrictMode> 
-    <App />
+  <StrictMode>
+    <ChakraProvider>
+      <App />
+    </ChakraProvider>
   </StrictMode>,
 )
