@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom"; // Used for navigation between pages
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons"; // Eye icons
 
 // Import Chakra UI components
 import {
@@ -7,7 +8,10 @@ import {
     Button,
     Input,
     Heading,
-    VStack
+    VStack,
+    InputGroup, // Groups input and button together
+    InputRightElement, // Places button inside input to the right
+    IconButton // Clickable button
 } from "@chakra-ui/react";
 
 // Login component
@@ -17,6 +21,8 @@ function Login() {
     // State to store the password input
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+    // Controls whether password is visible or not
+    const [showPassword, setShowPassword] = useState(false);
 
     // Handles form submission
     async function handleSubmit(e) {
@@ -82,7 +88,26 @@ function Login() {
                             onChange={(e) => setUsername(e.target.value)}
                         />
                     
-                    
+                        <InputGroup>
+                            <Input 
+                                type={showPassword ? "text" : "password"}
+                                placeholder="Enter password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                            <InputRightElement>
+                                <IconButton
+                                    size="sm"
+                                    variant="ghost"
+                                    // Accesibility label
+                                    aria-label={showPassword ? "Hide password" : "Show password"}
+                                    // Change visibility on click
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    // Change icon depending on state
+                                    icon={showPassword ? <ViewOffIcon /> : <ViewIcon />}
+                                />
+                            </InputRightElement>
+                        </InputGroup>            
                         <Input
                             type="password"
                             placeholder="Enter password"

@@ -1,13 +1,17 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons"; // Eye icons
 
 import {
     Box,
     Button,
     Input,
     Heading,
-    VStack
+    VStack,
+    InputGroup, // Groups input and button together
+    InputRightElement, // Places button inside input to the right
+    IconButton // Clickable button
 } from "@chakra-ui/react";
 
 function Register() { // Component for registering a new user
@@ -15,6 +19,8 @@ function Register() { // Component for registering a new user
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
+    // Controls whether password is visible or not
+    const [showPassword, setShowPassword] = useState(false);
 
     async function handleRegister(e) { // Runs when the form is submitted
         e.preventDefault();
@@ -77,12 +83,26 @@ function Register() { // Component for registering a new user
                             onChange={(e) => setEmail(e.target.value)}
                         />
                     
-                        <Input 
-                            type="password"
-                            placeholder="Enter password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                        />
+                        <InputGroup>
+                            <Input 
+                                type={showPassword ? "text" : "password"}
+                                placeholder="Enter password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                            <InputRightElement>
+                                <IconButton
+                                    size="sm"
+                                    variant="ghost"
+                                    // Accesibility label
+                                    aria-label={showPassword ? "Hide password" : "Show password"}
+                                    // Change visibility on click
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    // Change icon depending on state
+                                    icon={showPassword ? <ViewOffIcon /> : <ViewIcon />}
+                                />
+                            </InputRightElement>
+                        </InputGroup>
                     
                     <Button colorScheme="blue" width="full" type="submit">
                         Register
