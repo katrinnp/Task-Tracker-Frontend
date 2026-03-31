@@ -1,16 +1,103 @@
-# React + Vite
+# Task Tracker Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the frontend application for the Task Tracker project. It provides a simple user interface for authentication (login and registration) and communicates with the FastAPI backend.
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Tech Stack
 
-## React Compiler
+- React (Vite)
+- React Router DOM
+- Chakra UI
+- JavaScript
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-## Expanding the ESLint configuration
+## Project Structure
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+src/
+│
+├── components/
+│ ├── Login.jsx # Login page component
+│ └── Register.jsx # Register page component
+│
+├── App.jsx # Main routing configuration
+├── main.jsx # Application entry point
+├── App.css # Global styles
+└── index.css # Base styles
+
+
+## Installation & Setup
+
+1. Install dependencies:
+npm install
+
+2. Start the development server:
+npm run dev
+
+3. Make sure the backend is running at:
+http://localhost:8000
+
+
+## Authentication Flow
+
+# Login
+Endpoint: POST /users/login
+
+Request body:
+{
+  "username": "string",
+  "password": "string"
+}
+
+Behavior:
+Sends user credentials to the backend
+Displays a success message on successful login
+Displays an error message if login fails
+
+# Register
+Endpoint: POST /users
+
+Request body:
+{
+  "username": "string",
+  "email": "string",
+  "password": "string"
+}
+
+Behavior:
+Creates a new user in the backend
+Displays a success message on successful registration
+Redirects to the login page after registration
+
+
+## Components
+
+# Login.jsx
+Handles user authentication.
+
+Features:
+Controlled inputs for username and password
+Password visibility toggle (show/hide)
+Error handling
+API request to backend login endpoint
+Navigation to registration page
+
+# Register.jsx
+Handles new user registration.
+
+Features:
+Controlled inputs for username, email, and password
+Password visibility toggle
+API request to create a new user
+Redirect to login after successful registration
+
+# App.jsx
+Defines application routes using React Router:
+/ → Login page
+/register → Register page
+
+# main.jsx
+Entry point of the application
+
+
+## UI Styling
+Built with Chakra UI
