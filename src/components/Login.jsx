@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom"; // Used for navigation between pages
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons"; // Eye icons
+import { useNavigate } from "react-router-dom";
 
 // Import Chakra UI components
 import {
@@ -23,6 +24,7 @@ function Login() {
     const [error, setError] = useState("");
     // Controls whether password is visible or not
     const [showPassword, setShowPassword] = useState(false);
+    const navigate = useNavigate();
 
     // Handles form submission
     async function handleSubmit(e) {
@@ -36,20 +38,24 @@ function Login() {
         }
 
         try {
-            // Request all users from FastAPI
-            const response = await fetch("http://127.0.0.1:8000/users/login", {
+            // Form data for OAuth2 login
+            const formData = new FormData();
+            formData.append("username", username);
+            formData.append("password", password);
+            // Send POST request to auth/login endpoint
+            const response = await fetch("http://127.0.0.1:8000/auth/login", {
                 method: "POST",
-                headers: {"Content-Type": "application/json"}, // JSON to backend
-                body: JSON.stringify({
-                    username: username,
-                    password: password
-                }) // Convert JS object to JSON string
-            }); 
+                body: formData
+            });
             const data = await response.json();
+            console.log("LOGIN RESPONSE:", data);
             if(!response.ok) {
                 throw new Error(data.detail || "Login failed");
             }
-            alert("Login successful");
+            // Save token to localStorage
+            localStorage.setItem("token", data.access_token);
+            // Redirect to tasks page
+            navigate("/tasks");
         }
         catch (error) {
             console.error("Login error:", error);
@@ -108,12 +114,6 @@ function Login() {
                                 />
                             </InputRightElement>
                         </InputGroup>            
-                        <Input
-                            type="password"
-                            placeholder="Enter password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                        />
                     
                     {/*Button with built-in styling*/}
                     <Button colorScheme="blue" width="full" type="submit">
