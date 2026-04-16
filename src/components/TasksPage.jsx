@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ENDPOINTS } from "../api/endpoints";
 
 // Import Chakra UI components
 import {
@@ -17,9 +18,8 @@ const TasksPage = () => {
     const [tasks, setTasks] = useState([]);
     // State to store error
     const [error, setError] = useState("");
+    // State to navigate
     const navigate = useNavigate();
-    // State to track loading
-    const [loading, setLoading] = useState(true);
     // State for new task inputs 
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
@@ -36,7 +36,7 @@ const TasksPage = () => {
         async function fetchTasks() {
             try {
                 // Send request to backend
-                const response = await fetch("http://127.0.0.1:8000/tasks/", {
+                const response = await fetch(ENDPOINTS.TASKS, {
                     headers: { Authorization: `Bearer ${token}`} // Attach token for authentication
                 });
                 const data = await response.json();
@@ -60,7 +60,7 @@ const TasksPage = () => {
     async function handleAddTask() {
         const token = localStorage.getItem("token");
         try {
-            const response = await fetch("http://127.0.0.1:8000/tasks/", {
+            const response = await fetch(ENDPOINTS.TASKS, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -86,38 +86,38 @@ const TasksPage = () => {
     }
 
     // Function to toggle task completion status
-        async function handleToggle(task) {
-            const token = localStorage.getItem("token");
-            try {
-                // Send PATCH request to update only status field
-                const response = await fetch(`http://127.0.0.1:8000/tasks/${task.id}`, {
-                    method: "PATCH",
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`
-                    },
-                    body: JSON.stringify({
-                        completed: !task.completed 
-                    })
-                });
-                const updatedTask = await response.json();
-                if(!response.ok) {
-                    throw new Error(updatedTask.detail || "Failed to update task");
-                }
-                // Update task 
-                setTasks(prev => prev.map(t => t.id === task.id ? updatedTask : t));
+    async function handleToggle(task) {
+        const token = localStorage.getItem("token");
+        try {
+            // Send PATCH request to update only status field
+            const response = await fetch(ENDPOINTS.TASK_BY_ID(task.id), {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    completed: !task.completed 
+                })
+            });
+            const updatedTask = await response.json();
+            if(!response.ok) {
+                throw new Error(updatedTask.detail || "Failed to update task");
             }
-            catch (error) {
-                setError(error.message);
-            }
+            // Update task 
+            setTasks(prev => prev.map(t => t.id === task.id ? updatedTask : t));
         }
+        catch (error) {
+            setError(error.message);
+        }
+    }
 
     // Function to delete task
     async function handleDelete(taskId) {
         const token = localStorage.getItem("token");
         try {
             // Send DELETE request to backend
-            const response = await fetch(`http://127.0.0.1:8000/tasks/${taskId}`, {
+            const response = await fetch(ENDPOINTS.TASK_BY_ID(taskId), {
                 method: "DELETE",
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -141,6 +141,7 @@ const TasksPage = () => {
         // Redirect to login page
         navigate("/");
     }
+
     return (
         <Box // Full page
             minH="100vh"

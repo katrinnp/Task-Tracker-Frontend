@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom"; // Used for navigation between pages
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons"; // Eye icons
 import { useNavigate } from "react-router-dom";
+import { ENDPOINTS } from "../api/endpoints";
 
 // Import Chakra UI components
 import {
@@ -43,7 +44,7 @@ function Login() {
             formData.append("username", username);
             formData.append("password", password);
             // Send POST request to auth/login endpoint
-            const response = await fetch("http://127.0.0.1:8000/auth/login", {
+            const response = await fetch(ENDPOINTS.LOGIN, {
                 method: "POST",
                 body: formData
             });
