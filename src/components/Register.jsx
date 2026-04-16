@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons"; // Eye icons
+import { ENDPOINTS } from "../api/endpoints";
 
 import {
     Box,
@@ -29,7 +30,7 @@ function Register() { // Component for registering a new user
             return;
         }
         try {
-            const response = await fetch("http://localhost:8000/users", {
+            const response = await fetch(ENDPOINTS.REGISTER, {
                 method: "POST", // Send POST request to create a new user
                 headers: {"Content-Type": "application/json"}, // Sending JSON data
                 body: JSON.stringify({username, email, password}) // Convert JS object into JSON
