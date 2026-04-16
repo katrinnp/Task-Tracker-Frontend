@@ -1,13 +1,24 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+// Import Chakra UI components
+import {
+    Box,
+    Button,
+    Input,
+    Heading,
+    VStack,
+    Text,
+    Checkbox
+} from "@chakra-ui/react";
+
 const TasksPage = () => {
     // State to store tasks from backend
     const [tasks, setTasks] = useState([]);
     // State to store error
     const [error, setError] = useState("");
     const navigate = useNavigate();
-    // State to track loading state
+    // State to track loading
     const [loading, setLoading] = useState(true);
     // State for new task inputs 
     const [title, setTitle] = useState("");
@@ -16,21 +27,19 @@ const TasksPage = () => {
     // This runs when the component loads
     useEffect(() => {
         // Get token from localStorage
-                const token = localStorage.getItem("token");
-                if(!token) {
-                    navigate("/");
-                    return;
-                }
+        const token = localStorage.getItem("token");
+        if(!token) {
+            navigate("/");
+            return;
+        }
         // Function to fetch tasks
         async function fetchTasks() {
             try {
-                console.log("TOKEN:", token);
                 // Send request to backend
                 const response = await fetch("http://127.0.0.1:8000/tasks/", {
                     headers: { Authorization: `Bearer ${token}`} // Attach token for authentication
                 });
                 const data = await response.json();
-                console.log("TASKS RESPONSE:", data);
                 if(!response.ok) {
                     throw new Error(data.detail || "Failed to fetch tasks");
                 }
@@ -49,7 +58,6 @@ const TasksPage = () => {
 
     // Function to create a new task
     async function handleAddTask() {
-        console.log("CLICKED");
         const token = localStorage.getItem("token");
         try {
             const response = await fetch("http://127.0.0.1:8000/tasks/", {
@@ -64,12 +72,11 @@ const TasksPage = () => {
                 })
             });
             const data = await response.json();
-            console.log("CREATE RESPONSE:", data);
             if(!response.ok) {
                 throw new Error(data.detail || "Failed to create task");
             }
             // Add new task
-            setTasks(tasks => [...tasks, data]);
+            setTasks(prev => [...prev, data]);
             // Clear inputs 
             setTitle("");
             setDescription("");
@@ -126,62 +133,106 @@ const TasksPage = () => {
             setError(error.message);
         }
     }
+
+    // Function to logout user
+    function handleLogout() {
+        // Remove token from localStorage
+        localStorage.removeItem("token");
+        // Redirect to login page
+        navigate("/");
+    }
     return (
-        <div>
-            <h1>My tasks</h1>
-            {/*Add task form*/}
-           <div>
-            <input 
-                type="text"
-                placeholder="Task title"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-            />
-
-            <input 
-                type="text"
-                placeholder="Description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-            />
-
-    <button onClick={handleAddTask}>
-        Add Task
-    </button>
-        </div>
-                {/*Show error */}
-                    {error && <p style={{ color: "red" }}>{error}</p>}
-
-                    {/* Show message if no tasks */}
+        <Box // Full page
+            minH="100vh"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+        >
+            {/*Main*/}
+            <Box 
+                maxW="500px"
+                w="full"
+                p="6"
+                borderWidth="1px"
+                borderRadius="lg"
+                boxShadow="lg"
+            >
+                <Box display="flex" justifyContent="space-between" alignItems="center" mb="6">
+                    <Heading size="md">
+                        My Tasks
+                    </Heading>
+                    {/*Logout button*/}
+                    <Button colorScheme="red" size="sm" onClick={handleLogout}>
+                        Logout
+                    </Button>
+                </Box>
+                <VStack spacing={4}>
+                    {/*Input for task title*/}
+                    <Input 
+                        placeholder="Task title"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                    />
+                    {/*Input for description*/}
+                    <Input 
+                        placeholder="Description"
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                    />
+                    {/*Add task button*/}
+                    <Button colorScheme="blue" width="full" onClick={handleAddTask}>
+                        Add Task
+                    </Button>
+                    {/*Show error*/}
+                    {error && <Text color="red.500">{error}</Text>}
+                    {/*If no tasks*/}
                     {tasks.length === 0 ? (
-                        <p>No tasks yet</p>
+                        <Text>No tasks yet</Text>
                     ) : (
-                        // Render tasks
+                        // Render each task
                         tasks.map((task) => (
-                            <div key={task.id}>
-                                <h3>{task.title || "No title"}</h3>
-                                <p>{task.description || "No description"}</p>
-                                <p>Status: {task.completed ? "Done" : "Pending"}</p>
-
-                                {/*Toggle completed*/}
-                                <label>
-                                    <input 
-                                        type="checkbox"
-                                        checked={task.completed}
+                            <Box 
+                                key={task.id}
+                                w="full"
+                                p="4"
+                                borderWidth="1px"
+                                borderRadius="md"
+                            >
+                                <Text fontWeight="bold">
+                                    {task.title || "No title"}
+                                </Text>
+                                <Text fontSize="sm" color="gray.500">
+                                    {task.description || "No description"}
+                                </Text>
+                                {/*Checkbox to toggle completion*/}
+                                <Box 
+                                    mt="3"
+                                    display="flex"
+                                    justifyContent="space-between"
+                                    alignItems="center"
+                                >
+                                    {/*Checkbox for completion*/}
+                                    <Checkbox 
+                                        isChecked={task.completed}
                                         onChange={() => handleToggle(task)}
-                                        style={{marginRight: "6px"}}
-                                    />
-                                    Mark as done
-                                </label>
-                                <br />
-                                <button onClick={() => handleDelete(task.id)}
-                                    style={{marginTop: "10px", color:"red"}}>
-                                    Delete task
-                                </button>
-                            </div>
+                                    >
+                                        Done
+                                    </Checkbox>
+                                    {/*Delete button*/}
+                                    <Button 
+                                        size="sm"
+                                        colorScheme="red"
+                                        onClick={() => handleDelete(task.id)}
+                                    >
+                                        Delete
+                                    </Button>
+                                </Box>
+                            </Box>
                         ))
                     )}
-        </div>
+                </VStack>
+            </Box>
+        </Box>
     )
 };
 
